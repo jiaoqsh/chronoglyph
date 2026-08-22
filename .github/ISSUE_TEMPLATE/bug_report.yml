@@ -1,0 +1,31 @@
+name: Bug report
+description: Report reproducible incorrect behavior or a regression.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: Describe the observed and expected behavior.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Minimal reproduction
+      description: Include code, a repository, or exact Playground steps.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Chronoglyph version
+      placeholder: 0.4.0
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Browser and React version
+      placeholder: Chrome 140, React 19.2
+  - type: textarea
+    attributes:
+      label: Additional context
+      description: Add screenshots, console output, or reduced-motion details if relevant.

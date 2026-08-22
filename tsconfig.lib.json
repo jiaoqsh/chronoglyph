@@ -1,0 +1,32 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": true,
+    "outDir": ".chronoglyph-types",
+    "types": []
+  },
+  "include": [
+    "src/index.ts",
+    "src/data.ts",
+    "src/scenes.ts",
+    "src/core",
+    "src/primitives",
+    "src/controls",
+    "src/components",
+    "src/playground/DataDrivenScene.tsx",
+    "src/playground/catalog.ts",
+    "src/playground/examples.ts",
+    "src/playground/schema.ts",
+    "src/scenes/gene-expression",
+    "src/scenes/water-cycle"
+  ],
+  "exclude": [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/test",
+    "src/components/SiteHeader.tsx"
+  ]
+}

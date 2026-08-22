@@ -1,0 +1,7 @@
+node_modules
+dist
+dist-lib
+.chronoglyph-types
+coverage
+.DS_Store
+*.local

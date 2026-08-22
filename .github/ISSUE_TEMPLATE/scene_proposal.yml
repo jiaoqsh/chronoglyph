@@ -1,0 +1,29 @@
+name: Scene proposal
+description: Propose a reusable technical or scientific scene.
+title: "[Scene]: "
+labels: [scene]
+body:
+  - type: dropdown
+    attributes:
+      label: Domain
+      options:
+        - Technology
+        - Natural Science
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Timeline
+      description: List the named phases and the stable state each phase should show.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Sources and simplifications
+      description: For scientific scenes, include authoritative sources and explain omitted complexity.
+  - type: textarea
+    attributes:
+      label: Why it belongs in the built-in catalog
+    validations:
+      required: true

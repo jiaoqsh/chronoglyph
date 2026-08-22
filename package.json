@@ -1,0 +1,106 @@
+{
+  "name": "chronoglyph",
+  "version": "0.4.0",
+  "type": "module",
+  "description": "A timeline-driven SVG scene framework for explainable system and science animations.",
+  "license": "Apache-2.0",
+  "author": "jiaoqsh",
+  "homepage": "https://jiaoqsh.github.io/chronoglyph/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jiaoqsh/chronoglyph.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jiaoqsh/chronoglyph/issues"
+  },
+  "keywords": [
+    "animation",
+    "data-visualization",
+    "react",
+    "scene",
+    "svg",
+    "timeline"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run typecheck && npm run build:demo && npm run build:lib",
+    "build:demo": "vite build",
+    "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.lib.json && rollup --config rollup.types.config.mjs && node scripts/copy-library-styles.mjs",
+    "check": "npm run typecheck && npm run lint && npm test",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run check && npm run build"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist-lib/index.d.ts",
+      "import": "./dist-lib/chronoglyph.js"
+    },
+    "./data": {
+      "types": "./dist-lib/data.d.ts",
+      "import": "./dist-lib/data.js"
+    },
+    "./scenes": {
+      "types": "./dist-lib/scenes.d.ts",
+      "import": "./dist-lib/scenes.js"
+    },
+    "./styles.css": {
+      "types": "./types/style-module.d.ts",
+      "default": "./dist-lib/index.css"
+    },
+    "./scenes.css": {
+      "types": "./types/style-module.d.ts",
+      "default": "./dist-lib/scenes.css"
+    }
+  },
+  "files": [
+    "dist-lib",
+    "NOTICE",
+    "types"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "peerDependencies": {
+    "react": ">=18.2.0 <20",
+    "react-dom": ">=18.2.0 <20"
+  },
+  "dependencies": {
+    "lucide-react": "^1.33.0",
+    "motion": "^13.1.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
+    "@vitejs/plugin-react": "^6.1.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.4",
+    "jsdom": "^27.4.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "rollup": "^4.62.5",
+    "rollup-plugin-dts": "^6.5.1",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "8.40.0",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11"
+  }
+}

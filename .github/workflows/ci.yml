@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20.19.0
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Check types, lint, and tests
+        run: npm run check
+      - name: Build demo and package
+        run: npm run build
+      - name: Verify package contents
+        run: npm pack --dry-run
+
+  consumer-smoke:
+    needs: quality
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - react-version: 18.3.1
+            react-types: ^18
+          - react-version: 19.2.8
+            react-types: ^19
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 20.19.0
+          cache: npm
+      - name: Install and build package
+        run: |
+          npm ci
+          npm run build:lib
+          mkdir consumer
+          npm pack --silent --pack-destination consumer
+      - name: Install package with React ${{ matrix.react-version }}
+        working-directory: consumer
+        env:
+          REACT_VERSION: ${{ matrix.react-version }}
+          REACT_TYPES: ${{ matrix.react-types }}
+        run: |
+          npm init -y
+          npm install --no-package-lock --ignore-scripts ./chronoglyph-*.tgz "react@$REACT_VERSION" "react-dom@$REACT_VERSION" "@types/react@$REACT_TYPES" "@types/react-dom@$REACT_TYPES" typescript
+      - name: Import and type-check every public entry point
+        working-directory: consumer
+        run: |
+          node --input-type=module <<'NODE'
+          await import("chronoglyph");
+          await import("chronoglyph/data");
+          await import("chronoglyph/scenes");
+          console.log(import.meta.resolve("chronoglyph/styles.css"));
+          console.log(import.meta.resolve("chronoglyph/scenes.css"));
+          NODE
+          cp ../.github/consumer-smoke.tsx smoke.tsx
+          npx tsc --noEmit --strict --jsx react-jsx --target ES2022 --module NodeNext --moduleResolution NodeNext smoke.tsx
