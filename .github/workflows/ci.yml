@@ -72,4 +72,5 @@ jobs:
           console.log(import.meta.resolve("chronoglyph/scenes.css"));
           NODE
           cp ../.github/consumer-smoke.tsx smoke.tsx
-          npx tsc --noEmit --strict --jsx react-jsx --target ES2022 --module NodeNext --moduleResolution NodeNext smoke.tsx
+          cp ../.github/consumer-tsconfig.json tsconfig.json
+          npx tsc --project tsconfig.json
