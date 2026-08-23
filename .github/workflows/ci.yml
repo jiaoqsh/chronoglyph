@@ -74,3 +74,18 @@ jobs:
           cp ../.github/consumer-smoke.tsx smoke.tsx
           cp ../.github/consumer-tsconfig.json tsconfig.json
           npx tsc --project tsconfig.json
+
+  ci-gate:
+    if: always()
+    needs:
+      - quality
+      - consumer-smoke
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify required CI jobs
+        env:
+          QUALITY_RESULT: ${{ needs.quality.result }}
+          CONSUMER_SMOKE_RESULT: ${{ needs.consumer-smoke.result }}
+        run: |
+          test "$QUALITY_RESULT" = "success"
+          test "$CONSUMER_SMOKE_RESULT" = "success"
